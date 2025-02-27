@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: ./backend
+    container_name: django_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DEBUG=True
+    networks:
+      - explainllama_network
+
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - explainllama_network
+
+networks:
+  explainllama_network:
+    driver: bridge

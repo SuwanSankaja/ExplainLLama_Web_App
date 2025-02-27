@@ -1,0 +1,6 @@
+django
+djangorestframework
+transformers
+torch
+gunicorn
+django-cors-headers
