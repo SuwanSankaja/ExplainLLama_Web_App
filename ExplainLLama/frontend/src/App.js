@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Java Code Fixer</h1>
+      <h1>ExplainLlama Bug Fixer</h1>
       <textarea
         rows="8"
         cols="50"
