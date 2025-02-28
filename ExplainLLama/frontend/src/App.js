@@ -1,53 +1,70 @@
 import React, { useState } from "react";
-import axios from "axios";
+import "./App.css"; // Import CSS file
 
-function App() {
-  const [buggyCode, setBuggyCode] = useState("");
-  const [fixedCode, setFixedCode] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+const App = () => {
+    const [buggyCode, setBuggyCode] = useState("");
+    const [fixedCode, setFixedCode] = useState("");
+    const [explanation, setExplanation] = useState("");
+    const [selectedModel, setSelectedModel] = useState("codet5");
+    const [loading, setLoading] = useState(false);
 
-  const fixCode = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/api/fix_code/", {
-        buggy_code: buggyCode,
-      });
-      setFixedCode(response.data.fixed_code);
-    } catch (err) {
-      setError("Error fixing code. Please try again.");
-    }
-    setLoading(false);
-  };
+    const handleFixCode = async () => {
+        setLoading(true);
+        setFixedCode("");
+        setExplanation("");
 
-  return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>ExplainLlama Bug Fixer</h1>
-      <textarea
-        rows="8"
-        cols="50"
-        placeholder="Enter buggy Java code here..."
-        value={buggyCode}
-        onChange={(e) => setBuggyCode(e.target.value)}
-        style={{ fontSize: "16px", padding: "10px" }}
-      />
-      <br />
-      <button
-        onClick={fixCode}
-        disabled={loading}
-        style={{ marginTop: "10px", padding: "10px 20px", fontSize: "18px" }}
-      >
-        {loading ? "Fixing..." : "Fix This"}
-      </button>
-      <br />
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <h2>Fixed Code:</h2>
-      <pre style={{ backgroundColor: "#f4f4f4", padding: "10px", fontSize: "16px" }}>
-        {fixedCode || "Fixed code will appear here..."}
-      </pre>
-    </div>
-  );
-}
+        try {
+            const response = await fetch("http://localhost:8000/api/fix_code/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    buggy_code: buggyCode,
+                    model: selectedModel,
+                }),
+            });
+
+            const data = await response.json();
+            setFixedCode(data.fixed_code);
+            setExplanation(data.explanation);
+        } catch (error) {
+            console.error("Error fixing code:", error);
+        }
+        setLoading(false);
+    };
+
+    return (
+        <div className="container">
+            <h1>ExplainLLama</h1>
+
+            <textarea
+                placeholder="Enter buggy Java code here..."
+                value={buggyCode}
+                onChange={(e) => setBuggyCode(e.target.value)}
+            />
+
+            <div className="select-container">
+                <select value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
+                    <option value="codet5">CodeT5</option>
+                    <option value="claude">Claude</option>
+                    <option value="gemini">Gemini</option>
+                </select>
+
+                <button onClick={handleFixCode} disabled={loading}>
+                    {loading ? "Fixing..." : "Fix & Explain"}
+                </button>
+            </div>
+
+            <div className="output-container">
+                <h2>Fixed Code</h2>
+                <pre className="output-box fixed-code">{fixedCode || "No fixed code yet."}</pre>
+
+                <h2>Explanation</h2>
+                <pre className="output-box explanation">{explanation || "No explanation yet."}</pre>
+            </div>
+        </div>
+    );
+};
 
 export default App;
