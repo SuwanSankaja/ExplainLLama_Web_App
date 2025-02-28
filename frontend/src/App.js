@@ -5,7 +5,7 @@ const App = () => {
     const [buggyCode, setBuggyCode] = useState("");
     const [fixedCode, setFixedCode] = useState("");
     const [explanation, setExplanation] = useState("");
-    const [selectedModel, setSelectedModel] = useState("codet5");
+    const [selectedModel, setSelectedModel] = useState("codellama");
     const [loading, setLoading] = useState(false);
 
     const handleFixCode = async () => {
@@ -30,6 +30,8 @@ const App = () => {
             setExplanation(data.explanation);
         } catch (error) {
             console.error("Error fixing code:", error);
+            setFixedCode("Error occurred.");
+            setExplanation("Unable to generate explanation.");
         }
         setLoading(false);
     };
@@ -46,9 +48,11 @@ const App = () => {
 
             <div className="select-container">
                 <select value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
-                    <option value="codet5">CodeT5</option>
+                    <option value="codellama">CodeLlama</option>
                     <option value="claude">Claude</option>
                     <option value="gemini">Gemini</option>
+                    <option value="codet5">CodeT5</option>
+                    
                 </select>
 
                 <button onClick={handleFixCode} disabled={loading}>

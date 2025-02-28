@@ -5,3 +5,4 @@ transformers
 anthropic
 google-generativeai
 python-dotenv
+requests
