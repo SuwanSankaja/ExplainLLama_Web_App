@@ -1,0 +1,28 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore environment variables
+.env
+
+# Ignore virtual environment
+venv/
+.env/
+*.env
+
+# Ignore Django migrations cache (optional)
+*/migrations/*.pyc
+*/migrations/__pycache__/
+
+# Ignore frontend dependencies
+node_modules/
+package-lock.json
+
+# Ignore build files (React)
+build/
+dist/
+
+# Ignore system files (Mac/Linux)
+.DS_Store
+*.log
