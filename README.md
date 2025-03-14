@@ -4,6 +4,8 @@ Welcome to **ExplainLLama**, an AI-powered web application designed for Java bug
 
 🧑‍🎓 **This project is developed as part of our Final Year Research Project.** 🎓
 
+<img src="https://filedn.eu/lVNP1DcGQUE5OPMMHbPaQeb/ExplainLlama_Web_App/ExplainLLama_Web_UI.png" width="700">
+
 ---
 
 ## 🌟 Features
